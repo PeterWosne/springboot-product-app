@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head th:replace="fragments/head.html :: head" />
+
+<body>
+
+<nav th:replace="fragments/head.html :: navbar ('Products')" />
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+
+            <form th:action="@{/product/update}" th:method="post" th:object="${product}">
+                <input type="hidden" th:field="*{id}" id="id" name="id">
+                <div class="form-group">
+                    <label for="title" class="control-label">Title</label>
+                    <input type="text" th:field="*{title}" class="form-control" id="title" name="title" placeholder="Title">
+                    <p class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="price" class="control-label">Price</label>
+                    <input type="text" th:field="*{price}" class="form-control" id="price" name="price" placeholder="Price">
+                </div>
+
+                <div class="form-group">
+                    <label for="description" class="control-label">Description</label>
+                    <input type="text" th:field="*{description}" class="form-control" id="description" name="price" placeholder="Description">
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUrl" class="control-label">Image URL</label>
+                    <input type="text" th:field="*{imageUrl}" class="form-control" id="imageUrl" name="imageUrl" placeholder="Image URL">
+                    <p class="text-danger" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></p>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="fragments/footer.html :: scripts"/>
+
+</body>
+</html>

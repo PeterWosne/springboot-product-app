@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http//www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/head.html :: head" />
+
+<body>
+
+<nav th:replace="fragments/head.html :: navbar ('Shopping cart')" />
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+
+            <div th:unless=${#maps.isEmpty(products)} class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
+                <a href="#">Remove all</a>
+            </div>
+
+            <div th:if=${#maps.isEmpty(products)} class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-normal mb-0 text-black">Shopping cart empty</h3>
+            </div>
+
+            <div th:each="product : ${products}" class="card rounded-3 mb-4">
+                <div class="card-body p-4">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                            <img
+                                    th:src="@{${product.key.imageUrl}}"
+                                    class="img-fluid rounded-3">
+                        </div>
+                        <div class="col-md-3 col-lg-3 col-xl-3">
+                            <p th:text="${product.key.title}" class="lead fw-normal mb-2">Basic T-shirt</p>
+                        </div>
+
+                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+
+                            <form th:action="@{/cart/dec/{id}(id=${product.key.id})}" method="post">
+                                <button type="submit" class="btn btn-link px-2"
+                                        onclick="document.querySelector('input[type=number]').stepDown()">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </form>
+
+
+
+
+                                <input id="form1" min="0" name="quantity" th:value="${product.value}" type="number"
+                                       class="form-control form-control-sm" disabled />
+
+                            <form th:action="@{/cart/inc/{id}(id=${product.key.id})}" method="post">
+                                <button type="submit" class="btn btn-link px-2"
+                                        onclick="document.querySelector('input[type=number]').stepUp()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </form>
+
+
+                        </div>
+                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                            <h5 th:text="${product.key.price} * ${product.value}" class="mb-0">$499.00</h5>
+                        </div>
+
+                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+
+                            <form class="d-inline" th:action="@{/cart/{id}(id=${product.key.id})}" th:method="delete">
+                                <button type="submit" class="btn text-danger"><i class="fas fa-trash fa-lg"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:unless=${#maps.isEmpty(products)} class="d-flex justify-content-end">
+                <h5 class="fw-bold mb-0">Total: </h5>
+                <h5 th:text="${totalPrice}" class="fw-bold mb-0">2261</h5>
+            </div>
+
+            <div th:unless=${#maps.isEmpty(products)} class="d-flex justify-content-end mt-3">
+                <button type="button" class="btn btn-primary btn-lg">Make an order</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="fragments/footer.html :: scripts"/>
+</body>
+</html>

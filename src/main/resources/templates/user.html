@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http//www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/head.html :: head" />
+
+<body>
+
+<nav th:replace="fragments/head.html :: navbar ('Users')" />
+
+<div class="container">
+    <div class="row py-2">
+        <div class="col-12">
+            <a sec:authorize="hasRole('ROLE_SUPERADMIN')" class="btn btn-primary text-white" th:href="@{/user/new}">Add User</a>
+        </div>
+
+        <div class="col-12 mt-3">
+            <form class="form-inline" th:method="GET"> <!--для этой формы явно укажем метод get, отправлять содержимое будем на эту же страницу-->
+                <div class="form-group mb-2">
+                    <label for="usernameFilter" class="sr-only">Username Filter</label>
+                    <input type="text" class="form-control" id="usernameFilter" name="usernameFilter" placeholder="Username filter">
+                </div>
+
+                <div class="form-group ml-2 mb-2">
+                    <label for="minAgeFilter" class="sr-only">Min Age Filter</label>
+                    <input type="number" class="form-control" id="minAgeFilter" name="minAgeFilter" placeholder="min age">
+                </div>
+
+                <div class="form-group ml-2 mb-2">
+                    <label for="maxAgeFilter" class="sr-only">Min Age Filter</label>
+                    <input type="number" class="form-control" id="maxAgeFilter" name="maxAgeFilter" placeholder="max age">
+                </div>
+
+                <button type="submit" class="btn btn-primary mb-2 mx-sm-3">Apply</button>
+            </form>
+        </div>
+
+        <div class="col-12">
+            <table class="table table-bordered my-2">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Age</th>
+                    <th sec:authorize="hasRole('ROLE_SUPERADMIN')" scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--если users лист то empty, у page->метод hasContent()-->
+                <!--page неитерируемый, поэтому нужно достать список при помощи .content/getContent()-->
+                <tr th:if="${users.hasContent()}" th:each="user : ${users.content}">
+                    <th scope="row" th:text="${user.id}">1</th>
+                    <td th:text="${user.username}">Bootstrap 4 CDN and Starter Template</td>
+                    <td th:text="${user.age}"></td>
+                    <td sec:authorize="hasRole('ROLE_SUPERADMIN')">
+                        <a th:href="@{/user/{id}(id=${user.id})}" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                        <form class="d-inline" th:action="@{/user/{id}(id=${user.id})}" th:method="delete">
+                            <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:unless="${users.hasContent()}">
+                    <td colspan="4">No data</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${users.hasContent()}" class="col-12">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+
+                    <li th:each="num: ${#numbers.sequence(1, users.totalPages)}"
+                        class="page-item"
+                        th:class="${num == users.getNumber() + 1} ? 'page-item active'">
+                        <a th:text="${num}"
+                           th:href="@{/user(page=${num}, size=${users.size}, usernameFilter=${param.usernameFilter},
+                           minAge=${param.minAge}, maxAge=${param.maxAge})}"
+                           class="page-link" href="#">2 <span th:if="${num == users.number + 1}" class="sr-only">(current)</span></a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="fragments/footer.html :: scripts"/>
+</body>
+</html>

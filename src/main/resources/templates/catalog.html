@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http//www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/head.html :: head" />
+
+<body>
+
+<nav th:replace="fragments/head.html :: navbar ('Catalog')" />
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+            <form class="form-inline mt-3 mb-3" th:method="get">
+                <div class="form-group mb-2">
+                    <label for="productnameFilter" class="sr-only">Productname Filter</label>
+                    <input type="text" class="form-control" id="productnameFilter" name="productnameFilter" placeholder="Product name">
+                </div>
+                <div class="form-group ml-2 mb-2">
+                    <label for="minPriceFilter" class="sr-only">Min price</label>
+                    <input type="number" class="form-control" id="minPriceFilter" name="minPriceFilter" placeholder="Min price">
+                </div>
+                <div class="form-group ml-2 mb-2">
+                    <label for="maxPriceFilter" class="sr-only">Max price</label>
+                    <input type="number" class="form-control" id="maxPriceFilter" name="maxPriceFilter" placeholder="Max price">
+                </div>
+                <button type="submit" class="btn btn-primary ml-2 mb-2">Apply</button>
+            </form>
+
+
+            <div class="d-flex flex-wrap">
+                <div class="card" style="width: 16rem; margin-right: 20px;margin-bottom:20px;" th:each="product : ${products.content}">
+                    <img width="250" height="200" style="object-fit: contain;" th:src="@{${product.imageUrl}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 th:text="${product.title}" style="height: 3rem;" class="card-title">Card title</h5>
+                        <p style="height: 6rem;" th:text="${product.description}" class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <h5 th:text="${product.price}">100000</h5>
+
+                        <form th:action="@{/cart/{id}(id=${product.id})}" method="post">
+                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div th:if="${products.hasContent()}" class="col-12">
+            <nav aria-label="...">
+                <ul class="pagination">
+
+                    <li class="page-item"
+                        th:class="${products.getNumber() + 1 == 1} ? 'page-item disabled'">
+                        <a th:href="${products.getNumber() + 1 != 1} ? @{/catalog(page=${products.getNumber()}, size=${products.size}, productnameFilter=${param.productnameFilter},
+                           minPrice=${param.minPrice}, maxPrice=${param.maxPrice}, sortField=${param.sortField})} : 'javascript:void(0)'"
+                           style="text-decoration: none"
+                        ><span class="page-link">Previous</span></a>
+                    </li>
+
+                    <li th:each="num: ${#numbers.sequence(1, products.totalPages)}"
+                        class="page-item"
+                        th:class="${num == products.getNumber() + 1} ? 'page-item active'">
+                        <a th:text="${num}"
+                           th:href="@{/catalog(page=${num}, size=${products.size}, productnameFilter=${param.productnameFilter},
+                           minPrice=${param.minPrice}, maxPrice=${param.maxPrice}, sortField=${param.sortField})}"
+                           class="page-link">2 <span th:if="${num == products.number + 1}" class="sr-only">(current)</span></a>
+                    </li>
+
+                    <li class="page-item"
+                        th:class="${products.getNumber() + 1 == products.totalPages} ? 'page-item disabled'">
+                        <a th:href="${products.getNumber() + 1 != products.totalPages} ? @{/catalog(page=${products.getNumber() + 2}, size=${products.size}, productnameFilter=${param.productnameFilter},
+                           minPrice=${param.minPrice}, maxPrice=${param.maxPrice}, sortField=${param.sortField})} : 'javascript:void(0)'"
+                           style="text-decoration: none"
+                        ><span class="page-link">Next</span></a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="fragments/footer.html :: scripts"/>
+</body>
+</html>
