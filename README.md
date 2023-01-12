@@ -39,3 +39,6 @@
 </tr>
 </table>
 
+<h3>Корзина</h3>
+<img src="https://user-images.githubusercontent.com/63411993/212029642-a770eddc-e8df-4dea-bb32-2c3df8263ead.png" />
+
