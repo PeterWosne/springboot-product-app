@@ -47,4 +47,6 @@
 <img src="https://user-images.githubusercontent.com/63411993/212030990-190d7a26-ecb4-40ba-8b2a-1d8f95937248.png" />
 <h4>Добавление нового товара</h4>
 <img src="https://user-images.githubusercontent.com/63411993/212031559-3dd14d31-a048-4291-ac65-e9061e237cb2.png" />
+<h4>Список юзеров</h4>
+<img src="https://user-images.githubusercontent.com/63411993/212032106-033267b9-3edc-41c5-a91b-eeb4fd73eb9a.png" />
 
