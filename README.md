@@ -35,7 +35,7 @@
 </tr>
 <tr>
   <td><img src="https://user-images.githubusercontent.com/63411993/212027974-0febb6fc-f507-46ea-8125-cd69f5aa10db.png"/></td>
-  <td></td>
+  <td><img src="https://user-images.githubusercontent.com/63411993/212028576-d7e74e66-6a45-4d2e-bf9b-24843b2d5525.png"/></td>
 </tr>
-
 </table>
+
