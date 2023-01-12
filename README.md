@@ -42,3 +42,8 @@
 <h3>Корзина</h3>
 <img src="https://user-images.githubusercontent.com/63411993/212029642-a770eddc-e8df-4dea-bb32-2c3df8263ead.png" />
 
+<h3>Круд товаров и юзеров</h3>
+<h4>Список товаров</h4>
+<img src="https://user-images.githubusercontent.com/63411993/212030990-190d7a26-ecb4-40ba-8b2a-1d8f95937248.png" />
+<img />
+
