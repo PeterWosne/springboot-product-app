@@ -33,5 +33,9 @@
 <th>Страница авторизации</th>
 <th>Страница регистрации</th>
 </tr>
-<tr></tr>
+<tr>
+  <td><img src="https://user-images.githubusercontent.com/63411993/212027974-0febb6fc-f507-46ea-8125-cd69f5aa10db.png"/></td>
+  <td></td>
+</tr>
+
 </table>
